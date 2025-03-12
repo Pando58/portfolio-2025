@@ -1,1 +1,16 @@
 @import 'tailwindcss';
+
+@font-face {
+	font-family: "Archivo";
+	src: url("/fonts/Archivo-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+@theme {
+	--font-primary: "Archivo";
+}
+
+@layer base {
+	html {
+		@apply bg-zinc-900 text-white font-primary;
+	}
+}

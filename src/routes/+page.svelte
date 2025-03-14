@@ -1,3 +1,31 @@
+<script lang="ts">
+	import { animate, stagger } from "motion";
+	import { onMount } from "svelte";
+
+	let firstNameElement: HTMLSpanElement;
+	let lastNameElement: HTMLSpanElement;
+
+	onMount(() => {
+		animate([
+			[firstNameElement.childNodes, {
+				y: 0,
+			}, {
+				duration: 0.4,
+				delay: stagger(0.05),
+				ease: "backOut",
+			}],
+			[lastNameElement.childNodes, {
+				y: 0,
+			}, {
+				at: 0.2,
+				duration: 0.4,
+				delay: stagger(0.05),
+				ease: "backOut",
+			}],
+		]);
+	});
+</script>
+
 <div class="absolute inset-0">
 	<nav class="absolute right-0 inset-y-0 flex flex-col justify-between items-center">
 		<ul class="p-6 flex flex-col gap-10 text-sm font-bold font-stretch-110% tracking-wider leading-3">
@@ -27,8 +55,38 @@
 	<div class="absolute inset-0 grid place-items-center">
 		<div class="flex flex-col items-center">
 			<h1 class="text-center text-[min(10rem,18vw,18vh)] font-bold leading-[1] font-stretch-110%">
-				<span class="block">Enrique</span>
-				<span class="block">Pando</span>
+				<span class="relative block">
+					<span
+						bind:this={firstNameElement}
+						class="block absolute inset-x-0 -inset-y-1 pt-1 text-nowrap overflow-hidden"
+					>
+						{#each "Enrique" as letter}
+							<span
+								style="transform: translateY(100%)"
+								class="inline-block"
+							>{letter}</span>
+						{/each}
+					</span>
+					<span class="invisible">
+						Enrique
+					</span>
+				</span>
+				<span class="relative block">
+					<span
+						bind:this={lastNameElement}
+						class="block absolute inset-x-0 -inset-y-1 pt-1 text-nowrap overflow-hidden"
+					>
+						{#each "Pando" as letter}
+							<span
+								style="transform: translateY(100%)"
+								class="inline-block"
+							>{letter}</span>
+						{/each}
+					</span>
+					<span class="invisible">
+						Pando
+					</span>
+				</span>
 			</h1>
 			<h2 class="mt-[min(2rem,4vw,4vh)] xt-[min(1.2rem,2vw,2vh)] leading-[0.5]">
 				<span class="text-[min(1.9rem,3.6vw,3.5vh)] font-stretch-120% tracking-wider text-slate-300">SOFTWARE DEVELOPER</span>

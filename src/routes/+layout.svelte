@@ -1,6 +1,10 @@
 <script lang="ts">
+	import Sidebar from "$lib/components/Sidebar.svelte";
 	import "../app.css";
 	let { children } = $props();
 </script>
 
-{@render children()}
+<div class="absolute inset-0">
+	{@render children()}
+	<Sidebar />
+</div>

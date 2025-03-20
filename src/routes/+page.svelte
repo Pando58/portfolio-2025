@@ -1,11 +1,17 @@
 <script lang="ts">
+	import { beforeNavigate } from "$app/navigation";
+	import { rootLayoutKey, type rootLayoutCtx } from "$lib/context";
 	import { animate, stagger } from "motion";
-	import { onMount } from "svelte";
+	import { getContext, onMount } from "svelte";
+
+	const { sectionTransitionDelay } = getContext<rootLayoutCtx>(rootLayoutKey);
 
 	let firstNameElement: HTMLSpanElement;
 	let lastNameElement: HTMLSpanElement;
 
 	onMount(() => {
+		$sectionTransitionDelay = 400;
+
 		animate([
 			[firstNameElement.childNodes, {
 				y: 0,
@@ -21,6 +27,26 @@
 				duration: 0.4,
 				delay: stagger(0.05),
 				ease: "backOut",
+			}],
+		]);
+	});
+
+	beforeNavigate(() => {
+		animate([
+			[firstNameElement.childNodes, {
+				y: "-100%",
+			}, {
+				duration: 0.1,
+				delay: stagger(0.035),
+				ease: "circIn",
+			}],
+			[lastNameElement.childNodes, {
+				y: "-100%",
+			}, {
+				at: 0.15,
+				duration: 0.1,
+				delay: stagger(0.035),
+				ease: "circIn",
 			}],
 		]);
 	});

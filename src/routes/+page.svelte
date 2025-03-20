@@ -34,14 +34,14 @@
 	beforeNavigate(() => {
 		animate([
 			[firstNameElement.childNodes, {
-				y: "-100%",
+				y: "-102%",
 			}, {
 				duration: 0.1,
 				delay: stagger(0.035),
 				ease: "circIn",
 			}],
 			[lastNameElement.childNodes, {
-				y: "-100%",
+				y: "-102%",
 			}, {
 				at: 0.15,
 				duration: 0.1,
@@ -62,7 +62,7 @@
 				>
 					{#each "Enrique" as letter}
 						<span
-							style="transform: translateY(100%)"
+							style="transform: translateY(102%)"
 							class="inline-block"
 						>{letter}</span>
 					{/each}
@@ -78,7 +78,7 @@
 				>
 					{#each "Pando" as letter}
 						<span
-							style="transform: translateY(100%)"
+							style="transform: translateY(102%)"
 							class="inline-block"
 						>{letter}</span>
 					{/each}

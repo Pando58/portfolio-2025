@@ -58,7 +58,7 @@
 			<span class="relative block">
 				<span
 					bind:this={firstNameElement}
-					class="block absolute inset-x-0 -inset-y-1 pt-1 text-nowrap overflow-hidden"
+					class="block absolute inset-x-0 top-0 -bottom-[min(0.25rem,1.4vw,1.4vh)] text-nowrap overflow-hidden"
 				>
 					{#each "Enrique" as letter}
 						<span
@@ -74,7 +74,7 @@
 			<span class="relative block">
 				<span
 					bind:this={lastNameElement}
-					class="block absolute inset-x-0 -inset-y-1 pt-1 text-nowrap overflow-hidden"
+					class="block absolute inset-x-0 top-0 -bottom-[min(0.25rem,1.4vw,1.4vh)] text-nowrap overflow-hidden"
 				>
 					{#each "Pando" as letter}
 						<span

@@ -14,3 +14,8 @@
 		@apply bg-zinc-900 text-white font-primary;
 	}
 }
+
+.debug-outline {
+	@apply outline-[0.01px] -outline-offset-1 outline-lime-400/50 outline-dashed;
+	/* @apply bg-lime-400/20; */
+}

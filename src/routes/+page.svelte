@@ -4,15 +4,18 @@
 	import { animate, stagger } from "motion";
 	import { getContext, onMount } from "svelte";
 
-	const { sectionTransitionDelay } = getContext<rootLayoutCtx>(rootLayoutKey);
+	const {
+		sectionTransitionDelay,
+		sectionTransitionActive,
+	} = getContext<rootLayoutCtx>(rootLayoutKey);
 
 	let firstNameElement: HTMLSpanElement;
 	let lastNameElement: HTMLSpanElement;
 
-	onMount(() => {
+	onMount(async () => {
 		$sectionTransitionDelay = 400;
 
-		animate([
+		await animate([
 			[firstNameElement.childNodes, {
 				y: 0,
 			}, {
@@ -29,6 +32,10 @@
 				ease: "backOut",
 			}],
 		]);
+
+		$sectionTransitionActive = false;
+
+		console.log("here");
 	});
 
 	beforeNavigate(() => {

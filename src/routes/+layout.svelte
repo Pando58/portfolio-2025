@@ -1,6 +1,6 @@
 <script lang="ts">
 	import "../app.css";
-	import { onNavigate } from "$app/navigation";
+	import { beforeNavigate, onNavigate } from "$app/navigation";
 	import Sidebar from "$lib/components/Sidebar.svelte";
 	import { setContext } from "svelte";
 	import { rootLayoutKey, type rootLayoutCtx } from "$lib/context";
@@ -10,12 +10,18 @@
 	let { children } = $props();
 
 	const sectionTransitionDelay = writable(0);
+	const sectionTransitionActive = writable(true);
 
 	setContext<rootLayoutCtx>(rootLayoutKey, {
 		sectionTransitionDelay,
+		sectionTransitionActive,
 	});
 
 	let sectionKey = $state(Symbol());
+
+	beforeNavigate(() => {
+		$sectionTransitionActive = true;
+	});
 
 	onNavigate(async () => {
 		await sleep($sectionTransitionDelay);

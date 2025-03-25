@@ -16,8 +16,8 @@
 			<li>
 				<a
 					class={[
-						"[writing-mode:vertical-rl]",
-						{ "pointer-events-none": $sectionTransitionActive },
+						"[writing-mode:vertical-rl] transition-opacity duration-300",
+						{ "opacity-50 pointer-events-none": $sectionTransitionActive },
 					]}
 					{href}
 				>

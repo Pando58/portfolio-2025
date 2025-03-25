@@ -5,7 +5,7 @@
 	import { getContext, onMount } from "svelte";
 
 	const {
-		sectionTransitionDelay,
+		sectionOutroDelay,
 		sectionTransitionActive,
 	} = getContext<rootLayoutCtx>(rootLayoutKey);
 
@@ -13,7 +13,7 @@
 	let lastNameElement: HTMLSpanElement;
 
 	onMount(() => {
-		$sectionTransitionDelay = 390;
+		$sectionOutroDelay = 390;
 
 		animate([
 			[firstNameElement.childNodes, {

@@ -3,6 +3,6 @@ import type { Writable } from "svelte/store";
 export const rootLayoutKey = Symbol();
 
 export type rootLayoutCtx = {
-	sectionTransitionDelay: Writable<number>;
+	sectionOutroDelay: Writable<number>;
 	sectionTransitionActive: Writable<boolean>;
 };

@@ -9,11 +9,11 @@
 
 	let { children } = $props();
 
-	const sectionTransitionDelay = writable(0);
+	const sectionOutroDelay = writable(0);
 	const sectionTransitionActive = writable(true);
 
 	setContext<rootLayoutCtx>(rootLayoutKey, {
-		sectionTransitionDelay,
+		sectionOutroDelay,
 		sectionTransitionActive,
 	});
 
@@ -24,7 +24,7 @@
 	});
 
 	onNavigate(async () => {
-		await sleep($sectionTransitionDelay);
+		await sleep($sectionOutroDelay);
 
 		sectionKey = Symbol();
 	});

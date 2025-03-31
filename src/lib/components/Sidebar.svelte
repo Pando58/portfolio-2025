@@ -1,7 +1,23 @@
+<script lang="ts">
+	const sections = [
+		{ href: "/", text: "HOME" },
+		{ href: "/projects", text: "PROJECTS" },
+	];
+</script>
+
 <nav class="absolute right-0 inset-y-0 flex flex-col justify-between items-center">
 	<ul class="p-6 flex flex-col gap-10 text-sm font-bold font-stretch-110% tracking-wider leading-3">
-		<li><a class="[writing-mode:vertical-rl]" href="/">HOME</a></li>
-		<li class="[writing-mode:vertical-rl]">PROJECTS</li>
+		{#each sections as { href, text }}
+			<li>
+				<a
+					class="[writing-mode:vertical-rl]"
+					{href}
+				>
+					{text}
+				</a>
+
+			</li>
+		{/each}
 	</ul>
 
 	<div class="flex flex-col items-center p-4.5">

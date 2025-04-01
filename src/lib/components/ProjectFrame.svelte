@@ -9,7 +9,7 @@
 
 	let frameSize = 0.25;
 	let frameInnerDepth = 0.25;
-	let frameOuterDepth = 0.5;
+	let frameOuterDepth = 0.75;
 </script>
 
 <div
@@ -20,24 +20,24 @@
 </div>
 
 <div
-	style={`width: ${width}em; height: 0.25em; translate: ${-width / 2}em ${-height / 2}em; rotate: x 270deg;`}
+	style={`width: ${width}em; height: ${frameInnerDepth}em; translate: ${-width / 2}em ${-height / 2}em; rotate: x 270deg;`}
 	class="absolute backface-hidden origin-bottom-left bottom-0 bg-zinc-500"
 ></div>
 <div
-	style={`width: ${width}em; height: 0.25em; translate: ${-width / 2}em ${height / 2}em; rotate: x 90deg;`}
+	style={`width: ${width}em; height: ${frameInnerDepth}em; translate: ${-width / 2}em ${height / 2}em; rotate: x 90deg;`}
 	class="absolute backface-hidden origin-top-left bg-zinc-100"
 ></div>
 <div
-	style={`width: 0.25em; height: ${height}em; translate: ${-width / 2}em ${-height / 2}em; rotate: y 90deg;`}
+	style={`width: ${frameInnerDepth}em; height: ${height}em; translate: ${-width / 2}em ${-height / 2}em; rotate: y 90deg;`}
 	class="absolute backface-hidden origin-top-right right-0 bg-zinc-400"
 ></div>
 <div
-	style={`width: 0.25em; height: ${height}em; translate: ${width / 2}em ${-height / 2}em; rotate: y 270deg;`}
+	style={`width: ${frameInnerDepth}em; height: ${height}em; translate: ${width / 2}em ${-height / 2}em; rotate: y 270deg;`}
 	class="absolute backface-hidden origin-top-left bg-zinc-300"
 ></div>
 
 <svg
-	style={`width: ${width + (frameSize * 2)}em; height: ${height + (frameSize * 2)}em; translate: ${(-width / 2) - frameSize}em ${(-height / 2) - frameSize}em 0.25em;`}
+	style={`width: ${width + (frameSize * 2)}em; height: ${height + (frameSize * 2)}em; translate: ${(-width / 2) - frameSize}em ${(-height / 2) - frameSize}em ${frameInnerDepth}em;`}
 	class="absolute backface-hidden fill-zinc-200"
 	viewBox={`0 0 ${width + (frameSize * 2)} ${height + (frameSize * 2)}`}
 >
@@ -45,18 +45,18 @@
 </svg>
 
 <div
-	style={`width: ${width + (frameSize * 2)}em; height: 1em; translate: ${(-width / 2) - frameSize}em ${(-height / 2) - frameSize}em 0.25em; rotate: x 90deg;`}
+	style={`width: ${width + (frameSize * 2)}em; height: ${frameInnerDepth + frameOuterDepth}em; translate: ${(-width / 2) - frameSize}em ${(-height / 2) - frameSize}em ${frameInnerDepth}em; rotate: x 90deg;`}
 	class="absolute backface-hidden origin-bottom-left bottom-0 bg-zinc-100"
 ></div>
 <div
-	style={`width: ${width + (frameSize * 2)}em; height: 1em; translate: ${(-width / 2) - frameSize}em ${(height / 2) + frameSize}em 0.25em; rotate: x 270deg;`}
+	style={`width: ${width + (frameSize * 2)}em; height: ${frameInnerDepth + frameOuterDepth}em; translate: ${(-width / 2) - frameSize}em ${(height / 2) + frameSize}em ${frameInnerDepth}em; rotate: x 270deg;`}
 	class="absolute backface-hidden origin-top-left bg-zinc-500"
 ></div>
 <div
-	style={`width: 1em; height: ${height + (frameSize * 2)}em; translate: ${(-width / 2) - frameSize}em ${(-height / 2) - frameSize}em 0.25em; rotate: y 270deg;`}
+	style={`width: ${frameInnerDepth + frameOuterDepth}em; height: ${height + (frameSize * 2)}em; translate: ${(-width / 2) - frameSize}em ${(-height / 2) - frameSize}em ${frameInnerDepth}em; rotate: y 270deg;`}
 	class="absolute backface-hidden origin-top-right right-0 bg-zinc-300"
 ></div>
 <div
-	style={`width: 1em; height: ${height + (frameSize * 2)}em; translate: ${(width / 2) + frameSize}em ${(-height / 2) - frameSize}em 0.25em; rotate: y 90deg;`}
+	style={`width: ${frameInnerDepth + frameOuterDepth}em; height: ${height + (frameSize * 2)}em; translate: ${(width / 2) + frameSize}em ${(-height / 2) - frameSize}em ${frameInnerDepth}em; rotate: y 90deg;`}
 	class="absolute backface-hidden origin-top-left bg-zinc-400"
 ></div>

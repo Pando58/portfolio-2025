@@ -77,6 +77,7 @@
 
 	let scrollRegionIndex = $state(0);
 	let scrollContainer: HTMLElement;
+	let scrollProgress = $state(0);
 
 	const scrollRegionAmount = 7; // 3 is the minimum but a bigger number allows faster scroll
 	const scrollRegionAmountOneSide = Math.trunc(scrollRegionAmount / 2);
@@ -89,6 +90,8 @@
 		scrollContainer.scrollBy(0, getMiddleRegionRect().top);
 
 		scroll((progress: number) => {
+			scrollProgress = progress + (scrollRegionIndex / (scrollRegionAmount - 1));
+
 			if (progress > (scrollRegionAmountOneSide + 0.5) / (scrollRegionAmount - 1)) {
 				scrollRegionIndex++;
 			}
@@ -133,37 +136,42 @@
 			PROJECTS
 		</span>
 	</div>
-	<div class="absolute inset-0 overflow-auto">
+	<div class="absolute inset-0 overflow-hidden">
 		<div class="absolute left-[50vw] top-[50vh] text-[min(3vw,4vh)] perspective-[26em]">
-			<div
-				style={`transform: rotateX(${(my - (sh / 2)) / -(sh / 360)}deg) rotateY(${(mx - (sw / 2)) / (sw / 360)}deg);`}
-				class="transform-3d"
-			>
+			{#each [...Array(3)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div
-					style={`translate: -11.5em ${wave1.current - 1}em 0;`}
-					class="transform-3d"
+					style={`translate: 0 calc(${((-scrollProgress + 0.5) + ((i - 1) / (scrollRegionAmount - 1))) * 560}vh);`}
+					class="absolute transform-3d"
 				>
-					<ProjectFrame height={7} width={3} />
-				</div>
-				<div
-					style={`translate: 0 ${wave2.current}em 0;`}
-					class="transform-3d"
-				>
+					<div
+						style={`translate: -11.5em ${wave1.current - 1}em 0;`}
+						class="transform-3d"
+					>
+						<ProjectFrame height={7} width={3} />
+						<div class="absolute">
+							{i}
+						</div>
+					</div>
+					<div
+						style={`translate: 0 ${wave2.current}em 0;`}
+						class="transform-3d"
+					>
 
-					<ProjectFrame height={12} width={16} />
+						<ProjectFrame height={12} width={16} />
+					</div>
+					<div
+						style={`translate: 10.75em ${wave3.current + 1}em 0;`}
+						class="transform-3d"
+					>
+						<ProjectFrame height={4} width={1.5} />
+					</div>
 				</div>
-				<div
-					style={`translate: 10.75em ${wave3.current + 1}em 0;`}
-					class="transform-3d"
-				>
-					<ProjectFrame height={4} width={1.5} />
-				</div>
-			</div>
+			{/each}
 		</div>
 	</div>
 	<div class="absolute inset-0 z-50">
 		<div class="absolute">{scrollRegionIndex}</div>
-		<div bind:this={scrollContainer} class="h-screen overflow-auto opacity-70">
+		<div bind:this={scrollContainer} class="h-screen overflow-auto opacity-20">
 			{#each [...Array(scrollRegionAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div style={`background: hsl(${i * 20}, 50%, 30%);`} class="h-screen grid place-items-center">{i} <br /> {Math.random() * 1000 | 0}</div>
 			{/each}

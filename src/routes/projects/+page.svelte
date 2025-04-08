@@ -182,6 +182,7 @@
 						transform:
 						translateX(-11.5em)
 						translateY(${wave1.current - 1}em)
+						rotateX(${frames[i - scrollRegionIndex].left.current * 0.15}deg)
 						translateY(${frames[i - scrollRegionIndex].left.current}vh);
 					`}
 					class="transform-3d"
@@ -195,6 +196,7 @@
 					style={`
 						transform:
 						translateY(${wave2.current}em)
+						rotateX(${frames[i - scrollRegionIndex].middle.current * 0.15}deg)
 						translateY(${frames[i - scrollRegionIndex].middle.current}vh);
 					`}
 					class="transform-3d"
@@ -207,6 +209,7 @@
 						transform:
 						translateX(10.75em)
 						translateY(${wave3.current + 1}em)
+						rotateX(${frames[i - scrollRegionIndex].right.current * 0.15}deg)
 						translateY(${frames[i - scrollRegionIndex].right.current}vh);
 					`}
 					class="transform-3d"

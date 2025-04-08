@@ -85,7 +85,13 @@
 	const frameAmount = 3;
 
 	function getFrameVerticalPosition(i: number) {
-		return ((-scrollProgress + 0.5) + ((i + scrollRegionIndex - Math.trunc(frameAmount / 2)) / (scrollRegionAmount - 1))) * 560;
+		return (
+			(-scrollProgress + 0.5)
+			+ (
+				(i + scrollRegionIndex - Math.trunc(frameAmount / 2))
+				/ (scrollRegionAmount - 1)
+			)
+		) * (scrollRegionAmount - 1) * 80;
 	}
 
 	const frames = [...Array(frameAmount)].map((_, i) => ({

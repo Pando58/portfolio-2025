@@ -82,6 +82,10 @@
 	const scrollRegionAmount = 7; // 3 is the minimum but a bigger number allows faster scroll
 	const scrollRegionAmountOneSide = Math.trunc(scrollRegionAmount / 2);
 
+	const frameAmount = 3;
+
+	const frames = [...Array(frameAmount)].map(() => new Spring(0, { damping: 0.5, stiffness: 0.05 }));
+
 	onMount(() => {
 		function getMiddleRegionRect() {
 			return scrollContainer.children[scrollRegionAmountOneSide].getBoundingClientRect();
@@ -89,15 +93,39 @@
 
 		scrollContainer.scrollBy(0, getMiddleRegionRect().top);
 
+		function getFrameVerticalPosition(i: number) {
+			return ((-scrollProgress + 0.5) + ((i + scrollRegionIndex - Math.trunc(frameAmount / 2)) / (scrollRegionAmount - 1))) * 560;
+		}
+
 		scroll((progress: number) => {
 			scrollProgress = progress + (scrollRegionIndex / (scrollRegionAmount - 1));
 
 			if (progress > (scrollRegionAmountOneSide + 0.5) / (scrollRegionAmount - 1)) {
 				scrollRegionIndex++;
+
+				const firstFrame = frames[0];
+				for (let i = 0; i < frames.length - 1; i++) {
+					frames[i] = frames[i + 1];
+				}
+				frames[frames.length - 1] = firstFrame;
+
+				frames[frames.length - 1].set(getFrameVerticalPosition(frames.length - 1), { instant: true });
 			}
 
 			if (progress < (scrollRegionAmountOneSide - 0.5) / (scrollRegionAmount - 1)) {
 				scrollRegionIndex--;
+
+				const lastFrame = frames[frames.length - 1];
+				for (let i = frames.length - 1; i > 0; i--) {
+					frames[i] = frames[i - 1];
+				}
+				frames[0] = lastFrame;
+
+				frames[0].set(getFrameVerticalPosition(0), { instant: true });
+			}
+
+			for (let i = 0; i < frames.length; i++) {
+				frames[i].target = getFrameVerticalPosition(i);
 			}
 		}, {
 			container: scrollContainer,
@@ -138,9 +166,9 @@
 	</div>
 	<div class="absolute inset-0 overflow-hidden">
 		<div class="absolute left-[50vw] top-[50vh] text-[min(3vw,4vh)] perspective-[26em]">
-			{#each [...Array(3)].map((_, i) => scrollRegionIndex + i) as i (i)}
+			{#each [...Array(frameAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div
-					style={`translate: 0 calc(${((-scrollProgress + 0.5) + ((i - 1) / (scrollRegionAmount - 1))) * 560}vh);`}
+					style={`translate: 0 calc(${frames[i - scrollRegionIndex].current}vh);`}
 					class="absolute transform-3d"
 				>
 					<div

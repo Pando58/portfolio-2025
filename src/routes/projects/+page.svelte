@@ -84,10 +84,14 @@
 
 	const frameAmount = 3;
 
-	const frames = [...Array(frameAmount)].map(() => ({
-		left: new Spring(0, { damping: 0.5, stiffness: 0.08 }),
-		middle: new Spring(0, { damping: 0.5, stiffness: 0.05 }),
-		right: new Spring(0, { damping: 0.5, stiffness: 0.03 }),
+	function getFrameVerticalPosition(i: number) {
+		return ((-scrollProgress + 0.5) + ((i + scrollRegionIndex - Math.trunc(frameAmount / 2)) / (scrollRegionAmount - 1))) * 560;
+	}
+
+	const frames = [...Array(frameAmount)].map((_, i) => ({
+		left: new Spring(getFrameVerticalPosition(i - scrollRegionAmountOneSide), { damping: 0.5, stiffness: 0.08 }),
+		middle: new Spring(getFrameVerticalPosition(i - scrollRegionAmountOneSide), { damping: 0.5, stiffness: 0.05 }),
+		right: new Spring(getFrameVerticalPosition(i - scrollRegionAmountOneSide), { damping: 0.5, stiffness: 0.03 }),
 	}));
 
 	onMount(() => {
@@ -96,10 +100,6 @@
 		}
 
 		scrollContainer.scrollBy(0, getMiddleRegionRect().top);
-
-		function getFrameVerticalPosition(i: number) {
-			return ((-scrollProgress + 0.5) + ((i + scrollRegionIndex - Math.trunc(frameAmount / 2)) / (scrollRegionAmount - 1))) * 560;
-		}
 
 		scroll((progress: number) => {
 			scrollProgress = progress + (scrollRegionIndex / (scrollRegionAmount - 1));

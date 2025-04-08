@@ -84,7 +84,11 @@
 
 	const frameAmount = 3;
 
-	const frames = [...Array(frameAmount)].map(() => new Spring(0, { damping: 0.5, stiffness: 0.05 }));
+	const frames = [...Array(frameAmount)].map(() => ({
+		left: new Spring(0, { damping: 0.5, stiffness: 0.08 }),
+		middle: new Spring(0, { damping: 0.5, stiffness: 0.05 }),
+		right: new Spring(0, { damping: 0.5, stiffness: 0.03 }),
+	}));
 
 	onMount(() => {
 		function getMiddleRegionRect() {
@@ -109,7 +113,9 @@
 				}
 				frames[frames.length - 1] = firstFrame;
 
-				frames[frames.length - 1].set(getFrameVerticalPosition(frames.length - 1), { instant: true });
+				frames[frames.length - 1].left.set(getFrameVerticalPosition(frames.length - 1), { instant: true });
+				frames[frames.length - 1].middle.set(getFrameVerticalPosition(frames.length - 1), { instant: true });
+				frames[frames.length - 1].right.set(getFrameVerticalPosition(frames.length - 1), { instant: true });
 			}
 
 			if (progress < (scrollRegionAmountOneSide - 0.5) / (scrollRegionAmount - 1)) {
@@ -121,11 +127,15 @@
 				}
 				frames[0] = lastFrame;
 
-				frames[0].set(getFrameVerticalPosition(0), { instant: true });
+				frames[0].left.set(getFrameVerticalPosition(0), { instant: true });
+				frames[0].middle.set(getFrameVerticalPosition(0), { instant: true });
+				frames[0].right.set(getFrameVerticalPosition(0), { instant: true });
 			}
 
 			for (let i = 0; i < frames.length; i++) {
-				frames[i].target = getFrameVerticalPosition(i);
+				frames[i].left.target = getFrameVerticalPosition(i);
+				frames[i].middle.target = getFrameVerticalPosition(i);
+				frames[i].right.target = getFrameVerticalPosition(i);
 			}
 		}, {
 			container: scrollContainer,
@@ -168,31 +178,40 @@
 		<div class="absolute left-[50vw] top-[50vh] text-[min(3vw,4vh)] perspective-[26em]">
 			{#each [...Array(frameAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div
-					style={`translate: 0 calc(${frames[i - scrollRegionIndex].current}vh);`}
-					class="absolute transform-3d"
+					style={`
+						transform:
+						translateX(-11.5em)
+						translateY(${wave1.current - 1}em)
+						translateY(${frames[i - scrollRegionIndex].left.current}vh);
+					`}
+					class="transform-3d"
 				>
-					<div
-						style={`translate: -11.5em ${wave1.current - 1}em 0;`}
-						class="transform-3d"
-					>
-						<ProjectFrame height={7} width={3} />
-						<div class="absolute">
-							{i}
-						</div>
+					<ProjectFrame height={7} width={3} />
+					<div class="absolute">
+						{i}
 					</div>
-					<div
-						style={`translate: 0 ${wave2.current}em 0;`}
-						class="transform-3d"
-					>
+				</div>
+				<div
+					style={`
+						transform:
+						translateY(${wave2.current}em)
+						translateY(${frames[i - scrollRegionIndex].middle.current}vh);
+					`}
+					class="transform-3d"
+				>
 
-						<ProjectFrame height={12} width={16} />
-					</div>
-					<div
-						style={`translate: 10.75em ${wave3.current + 1}em 0;`}
-						class="transform-3d"
-					>
-						<ProjectFrame height={4} width={1.5} />
-					</div>
+					<ProjectFrame height={12} width={16} />
+				</div>
+				<div
+					style={`
+						transform:
+						translateX(10.75em)
+						translateY(${wave3.current + 1}em)
+						translateY(${frames[i - scrollRegionIndex].right.current}vh);
+					`}
+					class="transform-3d"
+				>
+					<ProjectFrame height={4} width={1.5} />
 				</div>
 			{/each}
 		</div>

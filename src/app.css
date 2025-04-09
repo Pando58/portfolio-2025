@@ -14,3 +14,14 @@
 		@apply bg-zinc-900 text-white font-primary;
 	}
 }
+
+@layer utilities {
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+}

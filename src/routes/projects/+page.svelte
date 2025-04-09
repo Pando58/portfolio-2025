@@ -195,9 +195,6 @@
 					class="transform-3d"
 				>
 					<ProjectFrame height={7} width={3} />
-					<div class="absolute">
-						{i}
-					</div>
 				</div>
 				<div
 					style={`
@@ -228,11 +225,10 @@
 			{/each}
 		</div>
 	</div>
-	<div class="absolute inset-0 z-50">
-		<div class="absolute">{scrollRegionIndex}</div>
-		<div bind:this={scrollContainer} class="h-screen overflow-auto opacity-20">
+	<div class="absolute inset-0">
+		<div bind:this={scrollContainer} class="h-screen overflow-auto no-scrollbar">
 			{#each [...Array(scrollRegionAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
-				<div style={`background: hsl(${i * 20}, 50%, 30%);`} class="h-screen grid place-items-center">{i} <br /> {Math.random() * 1000 | 0}</div>
+				<div class="h-screen"></div>
 			{/each}
 		</div>
 	</div>

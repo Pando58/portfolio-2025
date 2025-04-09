@@ -86,7 +86,7 @@
 
 	function getFrameVerticalPosition(i: number) {
 		return (
-			(-scrollProgress + 0.5)
+			-scrollProgress
 			+ (
 				(i + scrollRegionIndex - Math.trunc(frameAmount / 2))
 				/ (scrollRegionAmount - 1)
@@ -95,9 +95,9 @@
 	}
 
 	const frames = [...Array(frameAmount)].map((_, i) => ({
-		left: new Spring(getFrameVerticalPosition(i - scrollRegionAmountOneSide), { damping: 0.5, stiffness: 0.08 }),
-		middle: new Spring(getFrameVerticalPosition(i - scrollRegionAmountOneSide), { damping: 0.5, stiffness: 0.05 }),
-		right: new Spring(getFrameVerticalPosition(i - scrollRegionAmountOneSide), { damping: 0.5, stiffness: 0.03 }),
+		left: new Spring(getFrameVerticalPosition(i), { damping: 0.5, stiffness: 0.08 }),
+		middle: new Spring(getFrameVerticalPosition(i), { damping: 0.5, stiffness: 0.05 }),
+		right: new Spring(getFrameVerticalPosition(i), { damping: 0.5, stiffness: 0.03 }),
 	}));
 
 	onMount(() => {
@@ -108,7 +108,7 @@
 		scrollContainer.scrollBy(0, getMiddleRegionRect().top);
 
 		scroll((progress: number) => {
-			scrollProgress = progress + (scrollRegionIndex / (scrollRegionAmount - 1));
+			scrollProgress = progress + (scrollRegionIndex / (scrollRegionAmount - 1)) - 0.5;
 
 			if (progress > (scrollRegionAmountOneSide + 0.5) / (scrollRegionAmount - 1)) {
 				scrollRegionIndex++;

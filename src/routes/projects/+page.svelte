@@ -172,6 +172,11 @@
 			window.removeEventListener("resize", snapInstant);
 		};
 	});
+
+	// Scrollbar
+
+	const scrollbarRatio = 3;
+	const scrollbarRatioPercent = 100 / scrollbarRatio;
 </script>
 
 <div class="absolute inset-0">
@@ -230,6 +235,26 @@
 			{#each [...Array(scrollRegionAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div class="h-screen"></div>
 			{/each}
+		</div>
+
+		<div
+			style:--scroll-progress={(scrollProgress * (scrollRegionAmount - 1)).toFixed(3)}
+			class="absolute top-0 bottom-0 left-0 p-0.5 bg-zinc-900"
+		>
+			<div class="relative w-2 h-full">
+				<div
+					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}
+					style:top={`calc(var(--top) * 1%)`}
+					style:bottom={`max(0%, calc((100 - ${scrollbarRatioPercent} - var(--top)) * 1%))`}
+					class="absolute left-0 right-0 bg-zinc-700 rounded-xs"
+				></div>
+				<div
+					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}
+					style:top={`max(0%, calc(var(--top) * 1% - 100%))`}
+					style:bottom={`calc((100 - ${scrollbarRatioPercent} - var(--top)) * 1% + 100%)`}
+					class="absolute left-0 right-0 bg-zinc-700 rounded-xs"
+				></div>
+			</div>
 		</div>
 	</div>
 </div>

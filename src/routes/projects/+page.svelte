@@ -191,6 +191,7 @@
 				<div
 					style={`
 						transform:
+						rotateY(${frames[i - scrollRegionIndex].left.current * 0.2}deg)
 						translateX(-11.5em)
 						translateY(${wave1.current - 1}em)
 						rotateX(${frames[i - scrollRegionIndex].left.current * 0.15}deg)
@@ -204,6 +205,7 @@
 				<div
 					style={`
 						transform:
+						rotateY(${frames[i - scrollRegionIndex].middle.current * 0.2}deg)
 						translateY(${wave2.current}em)
 						rotateX(${frames[i - scrollRegionIndex].middle.current * 0.15}deg)
 						translateY(${frames[i - scrollRegionIndex].middle.current * 0.8}vh)
@@ -217,6 +219,7 @@
 				<div
 					style={`
 						transform:
+						rotateY(${frames[i - scrollRegionIndex].right.current * 0.2}deg)
 						translateX(10.75em)
 						translateY(${wave3.current + 1}em)
 						rotateX(${frames[i - scrollRegionIndex].right.current * 0.15}deg)

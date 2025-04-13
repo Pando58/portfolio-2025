@@ -177,6 +177,48 @@
 
 	const scrollbarRatio = 3;
 	const scrollbarRatioPercent = 100 / scrollbarRatio;
+
+	let scrollbarHandle: HTMLElement;
+	let scrollbarHandle2: HTMLElement;
+
+	onMount(() => {
+		let handleDown = false;
+
+		let prevY = 0;
+
+		function onPointerDown(e: PointerEvent) {
+			e.preventDefault();
+
+			handleDown = true;
+			prevY = e.clientY;
+		}
+
+		function onPointerUp() {
+			handleDown = false;
+		}
+
+		function onPointerMove({ clientY }: PointerEvent) {
+			if (handleDown) {
+				const diffY = clientY - prevY;
+
+				scrollContainer.scrollBy(0, diffY * scrollbarRatio);
+
+				prevY = clientY;
+			}
+		}
+
+		scrollbarHandle.addEventListener("pointerdown", onPointerDown);
+		scrollbarHandle2.addEventListener("pointerdown", onPointerDown);
+		window.addEventListener("pointerup", onPointerUp);
+		window.addEventListener("pointermove", onPointerMove);
+
+		return () => {
+			scrollbarHandle.removeEventListener("pointerdown", onPointerDown);
+			scrollbarHandle2.removeEventListener("pointerdown", onPointerDown);
+			window.removeEventListener("pointerup", onPointerUp);
+			window.removeEventListener("pointermove", onPointerMove);
+		};
+	});
 </script>
 
 <div class="absolute inset-0">
@@ -246,12 +288,14 @@
 		>
 			<div class="relative w-2 h-full">
 				<div
+					bind:this={scrollbarHandle}
 					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}
 					style:top={`calc(var(--top) * 1%)`}
 					style:bottom={`max(0%, calc((100 - ${scrollbarRatioPercent} - var(--top)) * 1%))`}
 					class="absolute left-0 right-0 bg-zinc-700 rounded-xs"
 				></div>
 				<div
+					bind:this={scrollbarHandle2}
 					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}
 					style:top={`max(0%, calc(var(--top) * 1% - 100%))`}
 					style:bottom={`calc((100 - ${scrollbarRatioPercent} - var(--top)) * 1% + 100%)`}

@@ -100,11 +100,22 @@
 		right: new Spring(getFrameVerticalPosition(i), { damping: 0.5, stiffness: 0.03 }),
 	}));
 
-	onMount(() => {
-		function getMiddleRegionRect() {
-			return scrollContainer.children[scrollRegionAmountOneSide].getBoundingClientRect();
-		}
+	function getMiddleRegionRect() {
+		return scrollContainer.children[scrollRegionAmountOneSide].getBoundingClientRect();
+	}
 
+	function snapInstant() {
+		scrollContainer.scrollBy(0, getMiddleRegionRect().top);
+	}
+
+	function snapSmooth() {
+		scrollContainer.scrollBy({
+			top: getMiddleRegionRect().top,
+			behavior: "smooth",
+		});
+	}
+
+	onMount(() => {
 		scrollContainer.scrollBy(0, getMiddleRegionRect().top);
 
 		scroll((progress: number) => {
@@ -147,16 +158,6 @@
 			container: scrollContainer,
 		});
 
-		const snapInstant = () => {
-			scrollContainer.scrollBy(0, getMiddleRegionRect().top);
-		};
-		const snapSmooth = () => {
-			scrollContainer.scrollBy({
-				top: getMiddleRegionRect().top,
-				behavior: "smooth",
-			});
-		};
-
 		let timeout: number;
 
 		const snapSmoothDebounce = () => {
@@ -194,7 +195,10 @@
 		}
 
 		function onPointerUp() {
+			if (!handleDown) return;
+
 			handleDown = false;
+			snapSmooth();
 		}
 
 		function onPointerMove({ clientY }: PointerEvent) {

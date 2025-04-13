@@ -161,6 +161,8 @@
 		let timeout: number;
 
 		const snapSmoothDebounce = () => {
+			if (scrollbarHandleDown) return;
+
 			clearTimeout(timeout);
 			timeout = setTimeout(snapSmooth, 300);
 		};
@@ -182,27 +184,27 @@
 	let scrollbarHandle: HTMLElement;
 	let scrollbarHandle2: HTMLElement;
 
-	onMount(() => {
-		let handleDown = false;
+	let scrollbarHandleDown = false;
 
+	onMount(() => {
 		let prevY = 0;
 
 		function onPointerDown(e: PointerEvent) {
 			e.preventDefault();
 
-			handleDown = true;
+			scrollbarHandleDown = true;
 			prevY = e.clientY;
 		}
 
 		function onPointerUp() {
-			if (!handleDown) return;
+			if (!scrollbarHandleDown) return;
 
-			handleDown = false;
+			scrollbarHandleDown = false;
 			snapSmooth();
 		}
 
 		function onPointerMove({ clientY }: PointerEvent) {
-			if (handleDown) {
+			if (scrollbarHandleDown) {
 				const diffY = clientY - prevY;
 
 				scrollContainer.scrollBy(0, diffY * scrollbarRatio);

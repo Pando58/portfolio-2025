@@ -185,7 +185,7 @@
 	let scrollbarHandle: HTMLElement;
 	let scrollbarHandle2: HTMLElement;
 
-	let scrollbarHandleDown = false;
+	let scrollbarHandleDown = $state(false);
 
 	function scrollbarPointerDown(e: PointerEvent) {
 		e.preventDefault();
@@ -302,7 +302,10 @@
 
 		<div
 			style:--scroll-progress={(scrollProgress * (scrollRegionAmount - 1)).toFixed(3)}
-			class="absolute top-0 bottom-0 left-0 p-0.5 bg-zinc-900"
+			class={[
+				"absolute top-0 bottom-0 left-0 p-0.5 hover:bg-zinc-950/40 transition duration-50",
+				{ "bg-zinc-950/40": scrollbarHandleDown },
+			]}
 		>
 			<div
 				bind:this={scrollbar}
@@ -314,14 +317,24 @@
 					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}
 					style:top={`calc(var(--top) * 1%)`}
 					style:bottom={`max(0%, calc((100 - ${scrollbarRatioPercent} - var(--top)) * 1%))`}
-					class="absolute left-0 right-0 bg-zinc-700 rounded-xs"
+					class={[
+						"absolute left-0 right-0 hover:bg-zinc-600 rounded-xs transition",
+						scrollbarHandleDown
+							? "bg-zinc-600"
+							: "bg-zinc-700",
+					]}
 				></div>
 				<div
 					bind:this={scrollbarHandle2}
 					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}
 					style:top={`max(0%, calc(var(--top) * 1% - 100%))`}
 					style:bottom={`calc((100 - ${scrollbarRatioPercent} - var(--top)) * 1% + 100%)`}
-					class="absolute left-0 right-0 bg-zinc-700 rounded-xs"
+					class={[
+						"absolute left-0 right-0 hover:bg-zinc-600 rounded-xs transition",
+						scrollbarHandleDown
+							? "bg-zinc-600"
+							: "bg-zinc-700",
+					]}
 				></div>
 			</div>
 		</div>

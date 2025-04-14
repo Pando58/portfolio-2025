@@ -241,7 +241,7 @@
 
 <div class="absolute inset-0">
 	<div class="flex justify-center py-12">
-		<span class="font-semibold font-stretch-110% text-3xl">
+		<span class="font-semibold font-stretch-110% text-2xl sm:text-3xl">
 			PROJECTS
 		</span>
 	</div>

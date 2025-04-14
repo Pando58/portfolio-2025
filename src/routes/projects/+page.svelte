@@ -249,46 +249,61 @@
 		<div class="absolute left-[50vw] top-[50vh] text-[min(3vw,4vh)] perspective-[26em]">
 			{#each [...Array(frameAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div
-					style={`
-						transform:
-						rotateY(${frames[i - scrollRegionIndex].left.current * 0.2}deg)
-						translateX(-11.5em)
-						translateY(${wave1.current - 1}em)
-						rotateX(${frames[i - scrollRegionIndex].left.current * 0.15}deg)
-						translateY(${frames[i - scrollRegionIndex].left.current * 0.8}vh)
-						translateY(${frames[i - scrollRegionIndex].left.current * 0.2}em);
-					`}
-					class="transform-3d"
+					style:--position={frames[i - scrollRegionIndex].left.current.toFixed(3)}
+					style:--wave={wave1.current.toFixed(3)}
+					class="contents"
 				>
-					<ProjectFrame height={7} width={3} />
+					<div
+						style:transform={`
+							rotateY(calc(var(--position) * 0.2deg))
+							translateX(-11.5em)
+							translateY(calc(var(--wave) * 1em - 1em))
+							rotateX(calc(var(--position) * 0.15deg))
+							translateY(calc(var(--position) * 0.8vh))
+							translateY(calc(var(--position) * 0.2em))
+						`.replace(/\n/g, " ").replace(/\s\s+/g, " ")}
+						class="transform-3d"
+					>
+						<ProjectFrame height={7} width={3} />
+					</div>
 				</div>
 				<div
-					style={`
-						transform:
-						rotateY(${frames[i - scrollRegionIndex].middle.current * 0.2}deg)
-						translateY(${wave2.current}em)
-						rotateX(${frames[i - scrollRegionIndex].middle.current * 0.15}deg)
-						translateY(${frames[i - scrollRegionIndex].middle.current * 0.8}vh)
-						translateY(${frames[i - scrollRegionIndex].middle.current * 0.2}em);
-					`}
-					class="transform-3d"
+					style:--position={frames[i - scrollRegionIndex].middle.current.toFixed(3)}
+					style:--wave={wave2.current.toFixed(3)}
+					class="contents"
 				>
+					<div
+						style:transform={`
+							rotateY(calc(var(--position) * 0.2deg))
+							translateY(calc(var(--wave) * 1em))
+							rotateX(calc(var(--position) * 0.15deg))
+							translateY(calc(var(--position) * 0.8vh))
+							translateY(calc(var(--position) * 0.2em))
+						`.replace(/\n/g, " ").replace(/\s\s+/g, " ")}
+						class="transform-3d"
+					>
 
-					<ProjectFrame height={12} width={16} />
+						<ProjectFrame height={12} width={16} />
+					</div>
 				</div>
 				<div
-					style={`
-						transform:
-						rotateY(${frames[i - scrollRegionIndex].right.current * 0.2}deg)
-						translateX(10.75em)
-						translateY(${wave3.current + 1}em)
-						rotateX(${frames[i - scrollRegionIndex].right.current * 0.15}deg)
-						translateY(${frames[i - scrollRegionIndex].right.current * 0.8}vh)
-						translateY(${frames[i - scrollRegionIndex].right.current * 0.2}em);
-					`}
-					class="transform-3d"
+					style:--position={frames[i - scrollRegionIndex].right.current.toFixed(3)}
+					style:--wave={wave3.current.toFixed(3)}
+					class="contents"
 				>
-					<ProjectFrame height={4} width={1.5} />
+					<div
+						style:transform={`
+							rotateY(calc(var(--position) * 0.2deg))
+							translateX(10.75em)
+							translateY(calc(var(--wave) * 1em + 1em))
+							rotateX(calc(var(--position) * 0.15deg))
+							translateY(calc(var(--position) * 0.8vh))
+							translateY(calc(var(--position) * 0.2em))
+						`.replace(/\n/g, " ").replace(/\s\s+/g, " ")}
+						class="transform-3d"
+					>
+						<ProjectFrame height={4} width={1.5} />
+					</div>
 				</div>
 			{/each}
 		</div>

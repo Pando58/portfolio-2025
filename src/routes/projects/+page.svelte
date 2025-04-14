@@ -181,16 +181,28 @@
 	const scrollbarRatio = 3;
 	const scrollbarRatioPercent = 100 / scrollbarRatio;
 
+	let scrollbar: HTMLElement;
 	let scrollbarHandle: HTMLElement;
 	let scrollbarHandle2: HTMLElement;
 
 	let scrollbarHandleDown = false;
+
+	function scrollbarPointerDown(e: PointerEvent) {
+		e.preventDefault();
+
+		const height = scrollbar.getBoundingClientRect().height;
+		const clickAreaIndex = Math.trunc((e.offsetY / height) * scrollbarRatio);
+		const clickAreaIndexRelative = clickAreaIndex - (Math.round(scrollProgress * (scrollRegionAmount - 1)) % scrollbarRatio);
+
+		scrollContainer.scrollBy(0, height * Math.sign(clickAreaIndexRelative));
+	}
 
 	onMount(() => {
 		let prevY = 0;
 
 		function onPointerDown(e: PointerEvent) {
 			e.preventDefault();
+			e.stopPropagation();
 
 			scrollbarHandleDown = true;
 			prevY = e.clientY;
@@ -292,7 +304,11 @@
 			style:--scroll-progress={(scrollProgress * (scrollRegionAmount - 1)).toFixed(3)}
 			class="absolute top-0 bottom-0 left-0 p-0.5 bg-zinc-900"
 		>
-			<div class="relative w-2 h-full">
+			<div
+				bind:this={scrollbar}
+				class="relative w-2 h-full"
+				onpointerdown={scrollbarPointerDown}
+			>
 				<div
 					bind:this={scrollbarHandle}
 					style:--top={`mod(var(--scroll-progress) * ${scrollbarRatioPercent}, 100)`}

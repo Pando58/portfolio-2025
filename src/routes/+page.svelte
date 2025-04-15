@@ -11,9 +11,11 @@
 
 	let firstNameElement: HTMLSpanElement;
 	let lastNameElement: HTMLSpanElement;
+	let subtitleElement: HTMLSpanElement;
+	let buttonElement: HTMLSpanElement;
 
 	onMount(() => {
-		$sectionOutroDelay = 390;
+		$sectionOutroDelay = 650;
 
 		animate([
 			[firstNameElement.childNodes, {
@@ -30,6 +32,27 @@
 				duration: 0.4,
 				delay: stagger(0.05),
 				ease: "backOut",
+			}],
+			[subtitleElement, {
+				y: 0,
+			}, {
+				at: 0.7,
+				duration: 0.3,
+				ease: "circOut",
+			}],
+			[buttonElement, {
+				y: 0,
+			}, {
+				at: 0.9,
+				duration: 0.5,
+				ease: "circOut",
+			}],
+			[buttonElement, {
+				opacity: 1,
+			}, {
+				at: 0.9,
+				duration: 0.8,
+				ease: "easeOut",
 			}],
 		]);
 
@@ -58,6 +81,20 @@
 				duration: 0.1,
 				delay: stagger(0.035),
 				ease: "circIn",
+			}],
+			[subtitleElement, {
+				y: "-100%",
+			}, {
+				at: 0.3,
+				duration: 0.15,
+				ease: "circIn",
+			}],
+			[buttonElement, {
+				opacity: 0,
+			}, {
+				at: 0.4,
+				duration: 0.25,
+				ease: "easeOut",
 			}],
 		]);
 	});
@@ -99,10 +136,18 @@
 				</span>
 			</span>
 		</h1>
-		<h2 class="mt-[min(2rem,4vw,4vh)] xt-[min(1.2rem,2vw,2vh)] leading-[0.5]">
-			<span class="text-[min(1.9rem,3.6vw,3.5vh)] font-stretch-120% tracking-wider text-slate-300">SOFTWARE DEVELOPER</span>
+		<h2 class="text-[min(1.9rem,3.6vw,3.5vh)] font-stretch-120% tracking-wider  mt-[min(2rem,4vw,4vh)] leading-[1em] text-slate-300 overflow-hidden">
+			<span
+				bind:this={subtitleElement}
+				style:transform="translateY(100%)"
+				class="inline-block"
+			>SOFTWARE DEVELOPER</span>
 		</h2>
-		<button class="mt-[min(12rem,18vh)] px-3 py-2 border-2 border-white/50 rounded-md cursor-pointer hover:bg-white hover:text-zinc-900 transition">
+		<button
+			bind:this={buttonElement}
+			style:transform="translateY(50%)"
+			class="mt-[min(12rem,18vh)] px-3 py-2 border-2 border-white/50 rounded-md cursor-pointer hover:bg-white hover:text-zinc-900 opacity-0"
+		>
 			<span class="text-sm font-bold tracking-wider">SEE PROJECTS</span>
 		</button>
 	</div>

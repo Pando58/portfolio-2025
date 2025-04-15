@@ -136,7 +136,7 @@
 				</span>
 			</span>
 		</h1>
-		<h2 class="text-[min(1.9rem,3.6vw,3.5vh)] font-stretch-120% tracking-wider  mt-[min(2rem,4vw,4vh)] leading-[1em] text-slate-300 overflow-hidden">
+		<h2 class="text-[min(1.9rem,3.6vw,3.5vh)] font-stretch-120% tracking-wider mt-[min(2rem,4vw,4vh)] leading-[1em] text-slate-300 overflow-hidden">
 			<span
 				bind:this={subtitleElement}
 				style:transform="translateY(100%)"
@@ -146,9 +146,16 @@
 		<button
 			bind:this={buttonElement}
 			style:transform="translateY(50%)"
-			class="mt-[min(12rem,18vh)] px-3 py-2 border-2 border-white/50 rounded-md cursor-pointer hover:bg-white hover:text-zinc-900 opacity-0"
+			class="relative mt-[min(12rem,18vh)] px-3 py-2 text-sm font-bold tracking-wider border-2 border-white/50 rounded-md cursor-pointer opacity-0"
 		>
-			<span class="text-sm font-bold tracking-wider">SEE PROJECTS</span>
+			<span>SEE PROJECTS</span>
+			<div class="group absolute -left-0.5 -top-0.5 -right-0.5 -bottom-0.5 rounded-md overflow-hidden">
+				<div class="absolute left-0 top-0 right-0 bottom-0 -translate-y-full overflow-hidden group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
+					<div class="absolute left-0 top-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out grid place-items-center bg-white text-zinc-900">
+						SEE PROJECTS
+					</div>
+				</div>
+			</div>
 		</button>
 	</div>
 </div>

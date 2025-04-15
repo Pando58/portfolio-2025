@@ -1,17 +1,63 @@
 <script lang="ts">
+	import { beforeNavigate } from "$app/navigation";
 	import ProjectFrame from "$lib/components/ProjectFrame.svelte";
 	import { type rootLayoutCtx, rootLayoutKey } from "$lib/context";
-	import { scroll } from "motion";
+	import { animate, stagger, scroll } from "motion";
 	import { getContext, onMount } from "svelte";
 	import { Spring } from "svelte/motion";
 
 	const {
+		sectionOutroDelay,
 		sectionTransitionActive,
 	} = getContext<rootLayoutCtx>(rootLayoutKey);
 
-	// Section navigation timing
+	// Section transition
+
+	let title: HTMLElement;
+	let framesContainer: HTMLElement;
+	let scrollbarContainer: HTMLElement;
 
 	onMount(() => {
+		$sectionOutroDelay = 600;
+
+		animate([
+			[title.childNodes, {
+				y: 0,
+			}, {
+				duration: 0.4,
+				delay: stagger(0.05),
+				ease: "backOut",
+			}],
+			[framesContainer, {
+				"--left-scale": 1,
+			}, {
+				at: 0.4,
+				duration: 0.5,
+				ease: "backOut",
+			}],
+			[framesContainer, {
+				"--middle-scale": 1,
+			}, {
+				at: 0.3,
+				duration: 0.5,
+				ease: "backOut",
+			}],
+			[framesContainer, {
+				"--right-scale": 1,
+			}, {
+				at: 0.5,
+				duration: 0.5,
+				ease: "backOut",
+			}],
+			[scrollbarContainer, {
+				x: 0,
+			}, {
+				at: 0.5,
+				duration: 0.5,
+				ease: "circOut",
+			}],
+		]);
+
 		const transitionTimeout = setTimeout(() => {
 			$sectionTransitionActive = false;
 		}, 800);
@@ -19,6 +65,34 @@
 		return () => {
 			clearTimeout(transitionTimeout);
 		};
+	});
+
+	beforeNavigate(() => {
+		animate([
+			[title.childNodes, {
+				y: "-100%",
+			}, {
+				duration: 0.1,
+				delay: stagger(0.035),
+				ease: "circIn",
+			}],
+			[framesContainer, {
+				"--left-scale": 0,
+				"--middle-scale": 0,
+				"--right-scale": 0,
+			}, {
+				at: 0,
+				duration: 0.3,
+				ease: "easeInOut",
+			}],
+			[scrollbarContainer, {
+				x: "-100%",
+			}, {
+				at: 0,
+				duration: 0.2,
+				ease: "easeInOut",
+			}],
+		]);
 	});
 
 	// Waving animation
@@ -241,12 +315,26 @@
 
 <div class="absolute inset-0">
 	<div class="flex justify-center py-12">
-		<span class="font-semibold font-stretch-110% text-2xl sm:text-3xl">
-			PROJECTS
+		<span
+			bind:this={title}
+			class="font-semibold font-stretch-110% text-2xl sm:text-3xl overflow-hidden"
+		>
+			{#each "PROJECTS" as letter}
+				<span
+					style:transform="translateY(100%)"
+					class="inline-block"
+				>{letter}</span>
+			{/each}
 		</span>
 	</div>
 	<div class="absolute inset-0 overflow-hidden">
-		<div class="absolute left-[50vw] top-[50vh] text-[min(3vw,4vh)] perspective-[26em]">
+		<div
+			bind:this={framesContainer}
+			style:--left-scale={0}
+			style:--middle-scale={0}
+			style:--right-scale={0}
+			class="absolute left-[50vw] top-[50vh] text-[min(3vw,4vh)] perspective-[26em]"
+		>
 			{#each [...Array(frameAmount)].map((_, i) => scrollRegionIndex + i) as i (i)}
 				<div
 					style:--position={frames[i - scrollRegionIndex].left.current.toFixed(3)}
@@ -261,6 +349,7 @@
 							rotateX(calc(var(--position) * 0.15deg))
 							translateY(calc(var(--position) * 0.8vh))
 							translateY(calc(var(--position) * 0.2em))
+							scale(calc(var(--left-scale) * 100%))
 						`.replace(/\n/g, " ").replace(/\s\s+/g, " ")}
 						class="transform-3d"
 					>
@@ -279,6 +368,7 @@
 							rotateX(calc(var(--position) * 0.15deg))
 							translateY(calc(var(--position) * 0.8vh))
 							translateY(calc(var(--position) * 0.2em))
+							scale(calc(var(--middle-scale) * 100%))
 						`.replace(/\n/g, " ").replace(/\s\s+/g, " ")}
 						class="transform-3d"
 					>
@@ -299,6 +389,7 @@
 							rotateX(calc(var(--position) * 0.15deg))
 							translateY(calc(var(--position) * 0.8vh))
 							translateY(calc(var(--position) * 0.2em))
+							scale(calc(var(--right-scale) * 100%))
 						`.replace(/\n/g, " ").replace(/\s\s+/g, " ")}
 						class="transform-3d"
 					>
@@ -316,7 +407,8 @@
 		</div>
 
 		<div
-			style:--scroll-progress={(scrollProgress * (scrollRegionAmount - 1)).toFixed(3)}
+			bind:this={scrollbarContainer}
+			style:transform="translateX(-100%)"
 			class={[
 				"absolute top-0 bottom-0 left-0 p-0.5 hover:bg-zinc-950/40 transition duration-50",
 				{ "bg-zinc-950/40": scrollbarHandleDown },
@@ -324,6 +416,7 @@
 		>
 			<div
 				bind:this={scrollbar}
+				style:--scroll-progress={(scrollProgress * (scrollRegionAmount - 1)).toFixed(3)}
 				class="relative w-2 h-full"
 				onpointerdown={scrollbarPointerDown}
 			>
